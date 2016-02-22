@@ -29,6 +29,13 @@ def _name(name):
 
 def is_on(value):
     return value in ['true', 'on', '1']
+    
+def is_on_underline(value):
+    # values gained from http://www.datypic.com/sc/ooxml/a-w_val-18.html
+    return value in ['single', 'words', 'double', 'thick', 'dotted', 
+                    'dottedHeavy', 'dash', 'dashedHeavy', 'dashLong', 
+                    'dashLongHeavy', 'dotDash', 'dashDotHeavy', 'dotDotDash',
+                    'dashDotDotHeavy', 'wave', 'wavyHeavy', 'wavyDouble']
 
 
 def parse_previous_properties(document, paragraph, prop):
@@ -85,8 +92,8 @@ def parse_previous_properties(document, paragraph, prop):
     u = prop.find(_name('{{{w}}}u'))
 
     if u is not None:
-        if is_on(u.attrib.get(_name('{{{w}}}val'), 'on')):
-            paragraph.rpr['u'] = True
+        if is_on_underline(u.attrib.get(_name('{{{w}}}val'), 'on')):
+            paragraph.rpr['u'] = u.attrib.get(_name('{{{w}}}val'), 'on')
 
     # parse underline
     strike = prop.find(_name('{{{w}}}strike'))
